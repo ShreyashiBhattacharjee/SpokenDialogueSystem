@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shreyashi Bhattacharjee</title>
+    <meta charset="utf-8" />
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'personal/css/bootstrap.min.css' %}" type = "text/css"/>
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    
+    <style type="text/css">
+        html,
+        body {
+          height:100%
+        }
+    </style>
+</head>
+
+<body class="body" style="background-color:#FFFFFF">
+    <div class="container-fluid" style="min-height:95%; ">
+        <div class="row">
+              <div class="col-sm-4">
+                  <br>
+                  <center>
+                    <img src="{% static 'personal/img/profile.png' %}" class="responsive-img" style='max-height:250px;' alt="image">
+                    <img src="{% static 'personal/img/index.png' %}" class="responsive-img" style='max-height:100px;' alt="image2">
+                    
+              </div>
+                  </center>
+              <div class="col-sm-8">
+                  <br>
+                  <center>
+                  <h1 style="font-size:30px">Speech To Text Conversion </h1>
+                  </center>
+              </div>
+        </div><hr>
+<style>
+  .speech {border: 1px solid #DDD; width: 300px; padding: 0; margin: 0}
+  .speech input {border: 0; width: 240px; display: inline-block; height: 30px;}
+  .speech img {float: right; width: 40px }
+</style>
+
+<!-- Search Form -->
+
+<form id="labnol" method="get" >
+  <div class="speech">
+    <input type="text" name="q" id="transcript" placeholder="Speak" />
+    <img onclick="startDictation()" src="//i.imgur.com/cHidSVu.gif" />
+  </div>
+</form>
+<textarea id ="bio" name="coloumn"></textarea>
+
+<!-- HTML5 Speech Recognition API -->
+<script>
+  function startDictation() {
+
+    
+document.getElementById('transcript').value='';
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+      var recognition = new webkitSpeechRecognition();
+
+      recognition.continuous = true;
+      recognition.interimResults = false;
+
+      recognition.lang = "hi-IN";
+      recognition.start();
+
+      recognition.onresult = function(e) {
+      var n = e.results[0][0].transcript;
+      document.getElementById('transcript').value = n;
+      var tv = document.getElementById('bio').value;
+      document.getElementById('bio').value = tv+"\n"+n+"\n"+"कृपया दोहराना";
+      
+       
+        recognition.stop();
+      
+      };
+
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+  }
+</script>
+
+<h1>Text to speech Convertor</h1>
+
+
+
+
+<script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<textarea id="text" cols="35" rows="1"></textarea>
+
+<select id="voiceselection"></select> 
+
+<input 
+  onclick="responsiveVoice.speak($('#text').val(),$('#voiceselection').val());" 
+  type="button" 
+  value="Play" 
+/>
+
+<script>
+        //Populate voice selection dropdown
+       var voicelist = responsiveVoice.getVoices();
+        var vselect = $("#voiceselection");
+       //responsiveVoice.setDefaultValue("Hindi Female");
+        $.each(voicelist, function() {
+                vselect.append($("<option />").val(this.name).text(this.name));
+       // responsiveVoice.speak();
+       
+        });
+
+</script>
+
+
+
+
+           <!-- Great, til you resize. -->
+            <!--<div class="well bs-sidebar affix" id="sidebar" style="background-color:#fff">-->
+            <div class="well bs-sidebar" id="sidebar" style="background-color:#fff">
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href='/'>Home</a></li>
+                <li><a href='/About/'>About</a></li>
+                <li><a href='/contact/'>contact</a></li>
+                                <li><a href='/Help/'>Help</a></li>
+              </ul>
+            </div> <!--well bs-sidebar affix-->
+          </div> <!--col-sm-2-->
+          <div class="col-sm-10">
+          
+            <div class='container-fluid'>
+            <br><br>
+               {% block content %}
+               {% endblock %}    
+            </div>
+          </div>
+        </div> 
+    </div>
+    <footer>
+        <div class="container-fluid" style='margin-left:15px'>
+            <p><a href="#" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a></p>
+        </div>
+    </footer>    
+    
+</body>
+
+</html>
